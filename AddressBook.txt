@@ -1,0 +1,239 @@
+UC1
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| payroll_service    |
+| performance_schema |
+| sys                |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> create database ADDRESSBOOK;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use ADDRESSBOOK;
+Database changed
+mysql> select database();
++-------------+
+| database()  |
++-------------+
+| addressbook |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| addressbook        |
+| information_schema |
+| mysql              |
+| payroll_service    |
+| performance_schema |
+| sys                |
++--------------------+
+8 rows in set (0.00 sec)
+
+UC2
+
+mysql> create table AddressBook
+    -> (
+    -> firstname VARCHAR(50),
+    -> lastname VARCHAR(50),
+    -> address VARCHAR(50),
+    -> city VARCHAR(20),
+    -> state VARCHAR(20),
+    -> zipcode INT unsigned,
+    -> phonenumber INT(10),
+    -> emailid VARCHAR(30)
+    -> );
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+UC3
+
+mysql> insert into AddressBook (firstname, lastname, address, city, state, zipcode, phonenumber, emailid) values
+    -> ('Lalath', 'k', 'Trikundram', 'Kochi', 'Kerala', 789054, 965432108, 'lalath@gmail.com'),
+    -> ('Chirsthopher', 'george', 'georgepalace','anglo','africa', 087096, 769809754, 'chirs@gmail.com'),
+    -> ('john', 'albert', 'Trikundram', 'Kochi', 'Kerala', 754829, 879654321, 'john@gmail.com');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from AddressBook;
++--------------+----------+--------------+-------+--------+---------+-------------+------------------+
+| firstname    | lastname | address      | city  | state  | zipcode | phonenumber | emailid          |
++--------------+----------+--------------+-------+--------+---------+-------------+------------------+
+| Lalath       | k        | Trikundram   | Kochi | Kerala |  789054 |   965432108 | lalath@gmail.com |
+| Chirsthopher | george   | georgepalace | anglo | africa |   87096 |   769809754 | chirs@gmail.com  |
+| john         | albert   | Trikundram   | Kochi | Kerala |  754829 |   879654321 | john@gmail.com   |
++--------------+----------+--------------+-------+--------+---------+-------------+------------------+
+3 rows in set (0.00 sec)
+
+UC4
+
+mysql> update AddressBook set emailid = 'lalath32@gmail.com' where firstname = 'lalath';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from AddressBook;
++--------------+----------+--------------+-------+--------+---------+-------------+--------------------+
+| firstname    | lastname | address      | city  | state  | zipcode | phonenumber | emailid            |
++--------------+----------+--------------+-------+--------+---------+-------------+--------------------+
+| Lalath       | k        | Trikundram   | Kochi | Kerala |  789054 |   965432108 | lalath32@gmail.com |
+| Chirsthopher | george   | georgepalace | anglo | africa |   87096 |   769809754 | chirs@gmail.com    |
+| john         | albert   | Trikundram   | Kochi | Kerala |  754829 |   879654321 | john@gmail.com     |
++--------------+----------+--------------+-------+--------+---------+-------------+--------------------+
+3 rows in set (0.00 sec)
+
+UC5
+
+mysql> delete from AddressBook where firstname = 'chirsthopher';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from AddressBook;
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+
+| firstname | lastname | address    | city  | state  | zipcode | phonenumber | emailid            |
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+
+| Lalath    | k        | Trikundram | Kochi | Kerala |  789054 |   965432108 | lalath32@gmail.com |
+| john      | albert   | Trikundram | Kochi | Kerala |  754829 |   879654321 | john@gmail.com     |
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+
+2 rows in set (0.02 sec)
+
+UC6
+
+mysql> select firstname from AddressBook where city = 'Kochi' or state = 'Kerala';
++-----------+
+| firstname |
++-----------+
+| Lalath    |
+| john      |
++-----------+
+2 rows in set (0.00 sec)
+
+UC7
+
+mysql> select count(firstname) from AddressBook where city = 'Kochi' or state = 'Kerala';
++------------------+
+| count(firstname) |
++------------------+
+|                2 |
++------------------+
+1 row in set (0.00 sec)
+
+UC8
+
+mysql> select * from AddressBook where city = 'Kochi' order by firstname;
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+
+| firstname | lastname | address    | city  | state  | zipcode | phonenumber | emailid            |
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+
+| john      | albert   | Trikundram | Kochi | Kerala |  754829 |   879654321 | john@gmail.com     |
+| Lalath    | k        | Trikundram | Kochi | Kerala |  789054 |   965432108 | lalath32@gmail.com |
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from AddressBook;
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+
+| firstname | lastname | address    | city  | state  | zipcode | phonenumber | emailid            |
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+
+| Lalath    | k        | Trikundram | Kochi | Kerala |  789054 |   965432108 | lalath32@gmail.com |
+| john      | albert   | Trikundram | Kochi | Kerala |  754829 |   879654321 | john@gmail.com     |
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+
+2 rows in set (0.00 sec)
+
+UC9
+
+mysql> alter table AddressBook
+    -> add type VARCHAR(50);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from AddressBook;
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+------+
+| firstname | lastname | address    | city  | state  | zipcode | phonenumber | emailid            | type |
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+------+
+| Lalath    | k        | Trikundram | Kochi | Kerala |  789054 |   965432108 | lalath32@gmail.com | NULL |
+| john      | albert   | Trikundram | Kochi | Kerala |  754829 |   879654321 | john@gmail.com     | NULL |
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE AddressBook SET type = 'friend' WHERE firstname = 'Lalath';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from AddressBook;
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+--------+
+| firstname | lastname | address    | city  | state  | zipcode | phonenumber | emailid            | type   |
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+--------+
+| Lalath    | k        | Trikundram | Kochi | Kerala |  789054 |   965432108 | lalath32@gmail.com | friend |
+| john      | albert   | Trikundram | Kochi | Kerala |  754829 |   879654321 | john@gmail.com     | NULL   |
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE AddressBook SET type = 'family' where firstname = 'john';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from AddressBook;
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+--------+
+| firstname | lastname | address    | city  | state  | zipcode | phonenumber | emailid            | type   |
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+--------+
+| Lalath    | k        | Trikundram | Kochi | Kerala |  789054 |   965432108 | lalath32@gmail.com | friend |
+| john      | albert   | Trikundram | Kochi | Kerala |  754829 |   879654321 | john@gmail.com     | family |
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+--------+
+2 rows in set (0.00 sec)
+
+UC10
+
+mysql> select count(type) from addressbook;
++-------------+
+| count(type) |
++-------------+
+|           2 |
++-------------+
+1 row in set (0.03 sec)
+
+mysql> select count(type) from addressbook where type = 'friend';
++-------------+
+| count(type) |
++-------------+
+|           1 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select * from AddressBook where type = 'friend';
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+--------+
+| firstname | lastname | address    | city  | state  | zipcode | phonenumber | emailid            | type   |
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+--------+
+| Lalath    | k        | Trikundram | Kochi | Kerala |  789054 |   965432108 | lalath32@gmail.com | friend |
++-----------+----------+------------+-------+--------+---------+-------------+--------------------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from AddressBook where type = 'family';
++-----------+----------+------------+-------+--------+---------+-------------+----------------+--------+
+| firstname | lastname | address    | city  | state  | zipcode | phonenumber | emailid        | type   |
++-----------+----------+------------+-------+--------+---------+-------------+----------------+--------+
+| john      | albert   | Trikundram | Kochi | Kerala |  754829 |   879654321 | john@gmail.com | family |
++-----------+----------+------------+-------+--------+---------+-------------+----------------+--------+
+1 row in set (0.00 sec)
+
+UC11
+
+mysql> INSERT INTO AddressBook (firstname, lastname, address, city, state, zipcode, phonenumber, emailid, type) VALUES
+    -> ('chandhini', 'ashok', 'Redhills', 'Chennai', 'Tamilnadu', 680453, 980652173, 'chandini@gmail.com', 'friend'),
+    -> ('Bagya', 'shri', 'Vengal', 'Chennai', 'Tamilnadu', 609843, 876543210, 'bagyashri@gmail.com', 'family');
+Query OK, 2 rows affected (0.02 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from AddressBook;
++-----------+----------+------------+---------+-----------+---------+-------------+---------------------+--------+
+| firstname | lastname | address    | city    | state     | zipcode | phonenumber | emailid             | type   |
++-----------+----------+------------+---------+-----------+---------+-------------+---------------------+--------+
+| Lalath    | k        | Trikundram | Kochi   | Kerala    |  789054 |   965432108 | lalath32@gmail.com  | friend |
+| john      | albert   | Trikundram | Kochi   | Kerala    |  754829 |   879654321 | john@gmail.com      | family |
+| chandhini | ashok    | Redhills   | Chennai | Tamilnadu |  680453 |   980652173 | chandini@gmail.com  | friend |
+| Bagya     | shri     | Vengal     | Chennai | Tamilnadu |  609843 |   876543210 | bagyashri@gmail.com | family |
++-----------+----------+------------+---------+-----------+---------+-------------+---------------------+--------+
+4 rows in set (0.00 sec)
