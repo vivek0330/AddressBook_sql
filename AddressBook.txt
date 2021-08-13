@@ -185,6 +185,60 @@ mysql> select * from AddressBook;
 +-----------+----------+------------+-------+--------+---------+-------------+--------------------+--------+
 2 rows in set (0.00 sec)
 
+mysql> alter table addressbook
+    -> add AddressBookName VARCHAR(50);
+Query OK, 0 rows affected (0.35 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from addressbook;
++-----------+----------+------------+---------+-----------+---------+-------------+---------------------+--------+-----------------+
+| firstname | lastname | address    | city    | state     | zipcode | phonenumber | emailid             | type   | AddressBookName |
++-----------+----------+------------+---------+-----------+---------+-------------+---------------------+--------+-----------------+
+| Lalath    | k        | Trikundram | Kochi   | Kerala    |  789054 |   965432108 | lalath32@gmail.com  | friend | NULL            |
+| john      | albert   | Trikundram | Kochi   | Kerala    |  754829 |   879654321 | john@gmail.com      | family | NULL            |
+| chandhini | ashok    | Redhills   | Chennai | Tamilnadu |  680453 |   980652173 | chandini@gmail.com  | friend | NULL            |
+| Bagya     | shri     | Vengal     | Chennai | Tamilnadu |  609843 |   876543210 | bagyashri@gmail.com | family | NULL            |
++-----------+----------+------------+---------+-----------+---------+-------------+---------------------+--------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> update addressbook set AddressBookName = 'FriendName' where firstname = 'Lalath';
+Query OK, 1 row affected (0.17 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update addressbook set AddressBookName = 'FriendName' where firstname = 'chandhini';
+Query OK, 1 row affected (0.48 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from addressbook;
++-----------+----------+------------+---------+-----------+---------+-------------+---------------------+--------+-----------------+
+| firstname | lastname | address    | city    | state     | zipcode | phonenumber | emailid             | type   | AddressBookName |
++-----------+----------+------------+---------+-----------+---------+-------------+---------------------+--------+-----------------+
+| Lalath    | k        | Trikundram | Kochi   | Kerala    |  789054 |   965432108 | lalath32@gmail.com  | friend | FriendName      |
+| john      | albert   | Trikundram | Kochi   | Kerala    |  754829 |   879654321 | john@gmail.com      | family | NULL            |
+| chandhini | ashok    | Redhills   | Chennai | Tamilnadu |  680453 |   980652173 | chandini@gmail.com  | friend | FriendName      |
+| Bagya     | shri     | Vengal     | Chennai | Tamilnadu |  609843 |   876543210 | bagyashri@gmail.com | family | NULL            |
++-----------+----------+------------+---------+-----------+---------+-------------+---------------------+--------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> update addressbook set AddressBookName = 'FamilyName' where firstname = 'john';
+Query OK, 1 row affected (0.16 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update addressbook set AddressBookName = 'FamilyName' where firstname = 'bagya';
+Query OK, 1 row affected (0.18 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from addressbook;
++-----------+----------+------------+---------+-----------+---------+-------------+---------------------+--------+-----------------+
+| firstname | lastname | address    | city    | state     | zipcode | phonenumber | emailid             | type   | AddressBookName |
++-----------+----------+------------+---------+-----------+---------+-------------+---------------------+--------+-----------------+
+| Lalath    | k        | Trikundram | Kochi   | Kerala    |  789054 |   965432108 | lalath32@gmail.com  | friend | FriendName      |
+| john      | albert   | Trikundram | Kochi   | Kerala    |  754829 |   879654321 | john@gmail.com      | family | FamilyName      |
+| chandhini | ashok    | Redhills   | Chennai | Tamilnadu |  680453 |   980652173 | chandini@gmail.com  | friend | FriendName      |
+| Bagya     | shri     | Vengal     | Chennai | Tamilnadu |  609843 |   876543210 | bagyashri@gmail.com | family | FamilyName      |
++-----------+----------+------------+---------+-----------+---------+-------------+---------------------+--------+-----------------+
+4 rows in set (0.00 sec)
+
 UC10
 
 mysql> select count(type) from addressbook;
@@ -219,7 +273,7 @@ mysql> select * from AddressBook where type = 'family';
 +-----------+----------+------------+-------+--------+---------+-------------+----------------+--------+
 1 row in set (0.00 sec)
 
-UC11
+-----------------------------------------------UC11----------------------------------------------------------
 
 mysql> INSERT INTO AddressBook (firstname, lastname, address, city, state, zipcode, phonenumber, emailid, type) VALUES
     -> ('chandhini', 'ashok', 'Redhills', 'Chennai', 'Tamilnadu', 680453, 980652173, 'chandini@gmail.com', 'friend'),
@@ -237,3 +291,223 @@ mysql> select * from AddressBook;
 | Bagya     | shri     | Vengal     | Chennai | Tamilnadu |  609843 |   876543210 | bagyashri@gmail.com | family |
 +-----------+----------+------------+---------+-----------+---------+-------------+---------------------+--------+
 4 rows in set (0.00 sec)
+
+----------------------------------------UC12-----------------------------------------------------------------
+/******** Create address_book table **************/
+mysql> CREATE TABLE address_book
+    -> (
+    -> addressBookId INT NOT NULL AUTO_INCREMENT,
+    -> addressBookName VARCHAR(100),
+    -> PRIMARY KEY (addressBookId)
+    -> );
+Query OK, 0 rows affected (0.54 sec)
+
+mysql> describe address_book;
++-----------------+--------------+------+-----+---------+----------------+
+| Field           | Type         | Null | Key | Default | Extra          |
++-----------------+--------------+------+-----+---------+----------------+
+| addressBookId   | int          | NO   | PRI | NULL    | auto_increment |
+| addressBookName | varchar(100) | YES  |     | NULL    |                |
++-----------------+--------------+------+-----+---------+----------------+
+2 rows in set (0.11 sec)
+
+mysql> insert into Address_book
+    -> values (1, 'Friend');
+Query OK, 1 row affected (0.17 sec)
+
+mysql> select * from address_book;
++---------------+-----------------+
+| addressBookId | addressBookName |
++---------------+-----------------+
+|             1 | Friend          |
++---------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE contact_person (
+    ->     contactID int NOT NULL AUTO_INCREMENT,
+    ->     FirstName varchar(255),
+    ->     LastName varchar(255),
+    ->     Address varchar(255),
+    ->     City varchar(255),
+    ->     StateName varchar(255),
+    ->     Zipcode BIGINT,
+    ->     Phonenum BIGINT,
+    ->     EmailId varchar(255),
+    ->     addressBook_id int,
+    ->     PRIMARY KEY (contactID),
+    ->     FOREIGN KEY (addressBook_id) REFERENCES address_book(addressBookId) ON UPDATE CASCADE ON DELETE RESTRICT
+    -> );
+Query OK, 0 rows affected (0.54 sec)
+mysql> describe contact_person;
++----------------+--------------+------+-----+---------+----------------+
+| Field          | Type         | Null | Key | Default | Extra          |
++----------------+--------------+------+-----+---------+----------------+
+| contactID      | int          | NO   | PRI | NULL    | auto_increment |
+| FirstName      | varchar(255) | YES  |     | NULL    |                |
+| LastName       | varchar(255) | YES  |     | NULL    |                |
+| Address        | varchar(255) | YES  |     | NULL    |                |
+| City           | varchar(255) | YES  |     | NULL    |                |
+| StateName      | varchar(255) | YES  |     | NULL    |                |
+| Zipcode        | bigint       | YES  |     | NULL    |                |
+| Phonenum       | bigint       | YES  |     | NULL    |                |
+| EmailId        | varchar(255) | YES  |     | NULL    |                |
+| addressBook_id | int          | YES  | MUL | NULL    |                |
++----------------+--------------+------+-----+---------+----------------+
+10 rows in set (0.00 sec)
+
+mysql> Insert into Contact_Person (Firstname, Lastname, Address, City, Statename, Zipcode, Phonenum, EmailID, addressBook_id) values
+    -> ('Dinesh','Sankar','Fort Road','Bangalore','Karnataka',600158,8939478157,'dinesh456@gmail.com',1),
+    -> ('Raj','Kumar','Adam Street','Chennai','Tamil Nadu',600015,9847581547,'raj23@gmail.com',2),
+    -> ('Akshaya','Raju','South Marret Street.','Coimbatore','Tamil Nadu',600145,874875197,'akshaya@23gmail.com',2),
+    -> ('Atchaya','Vishal','Gandhi Bazaar','Cochin','Kerala',601454,7847595157,'atchu2000@gmail,com',1);
+Query OK, 4 rows affected (0.06 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from contact_person;
++-----------+-----------+----------+----------------------+------------+------------+---------+------------+---------------------+----------------+
+| contactID | FirstName | LastName | Address              | City       | StateName  | Zipcode | Phonenum   | EmailId             | addressBook_id |
++-----------+-----------+----------+----------------------+------------+------------+---------+------------+---------------------+----------------+
+|         5 | Dinesh    | Sankar   | Fort Road            | Bangalore  | Karnataka  |  600158 | 8939478157 | dinesh456@gmail.com |              1 |
+|         6 | Raj       | Kumar    | Adam Street          | Chennai    | Tamil Nadu |  600015 | 9847581547 | raj23@gmail.com     |              2 |
+|         7 | Akshaya   | Raju     | South Marret Street. | Coimbatore | Tamil Nadu |  600145 |  874875197 | akshaya@23gmail.com |              2 |
+|         8 | Atchaya   | Vishal   | Gandhi Bazaar        | Cochin     | Kerala     |  601454 | 7847595157 | atchu2000@gmail,com |              1 |
++-----------+-----------+----------+----------------------+------------+------------+---------+------------+---------------------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Contact_type (
+    -> ContactTypeID INT NOT NULL AUTO_INCREMENT,
+    -> ContactTypeName varchar(255),
+    -> PRIMARY KEY (ContactTypeID)
+    -> );
+Query OK, 0 rows affected (0.79 sec)
+
+mysql> DESC Contact_type;
++-----------------+--------------+------+-----+---------+----------------+
+| Field           | Type         | Null | Key | Default | Extra          |
++-----------------+--------------+------+-----+---------+----------------+
+| ContactTypeID   | int          | NO   | PRI | NULL    | auto_increment |
+| ContactTypeName | varchar(255) | YES  |     | NULL    |                |
++-----------------+--------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into contact_type
+    -> values ('Family'),('Friends'),('Profession');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into contact_type (ContactTypeName)
+    -> values ('Family'),('Friends'),('Profession');
+Query OK, 3 rows affected (0.08 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from contact_type;
++---------------+-----------------+
+| ContactTypeID | ContactTypeName |
++---------------+-----------------+
+|             1 | Family          |
+|             2 | Friends         |
+|             3 | Profession      |
++---------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Relation_type (
+    -> ContactType_id INT,
+    -> contact_ID int,
+    -> FOREIGN KEY (ContactType_ID) references Contact_Type(ContactTypeID),
+    -> foreign key (Contact_ID) references Contact_Person(ContactID) ON UPDATE CASCADE ON DELETE RESTRICT
+    -> );
+Query OK, 0 rows affected (1.34 sec)
+
+mysql> desc relation_type;
++----------------+------+------+-----+---------+-------+
+| Field          | Type | Null | Key | Default | Extra |
++----------------+------+------+-----+---------+-------+
+| ContactType_id | int  | YES  | MUL | NULL    |       |
+| contact_ID     | int  | YES  | MUL | NULL    |       |
++----------------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Relation_Type values
+    ->    (1,7),
+    ->    (2,7),
+    ->    (3,5),
+    ->    (1,6),
+    ->    (2,8);
+Query OK, 5 rows affected (0.21 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> Select * from Relation_type;
++----------------+------------+
+| ContactType_id | contact_ID |
++----------------+------------+
+|              1 |          7 |
+|              2 |          7 |
+|              3 |          5 |
+|              1 |          6 |
+|              2 |          8 |
++----------------+------------+
+5 rows in set (0.00 sec)
+
+/*********************************************UC13********************************************************/
+----UC6--->Retrieve Person Belonging to  City or State
+mysql> select AddressBookName,FirstName,LastName,Address,City,StateName,ZipCode,PhoneNum,EmailId,ContactTypeName
+    -> from Contact_Person
+    -> INNER JOIN  Address_Book on Address_Book.AddressBookID=Contact_Person.AddressBook_ID and (City='Chennai' or StateName='Tamil Nadu')
+    -> INNER JOIN Relation_Type on Relation_Type.Contact_ID=Contact_Person.ContactID
+    -> INNER JOIN Contact_Type on Relation_Type.ContactType_ID=Contact_Type.ContactTypeID;
++-----------------+-----------+----------+----------------------+------------+------------+---------+------------+---------------------+-----------------+
+| AddressBookName | FirstName | LastName | Address              | City       | StateName  | ZipCode | PhoneNum   | EmailId             | ContactTypeName |
++-----------------+-----------+----------+----------------------+------------+------------+---------+------------+---------------------+-----------------+
+| Family          | Raj       | Kumar    | Adam Street          | Chennai    | Tamil Nadu |  600015 | 9847581547 | raj23@gmail.com     | Family          |
+| Family          | Akshaya   | Raju     | South Marret Street. | Coimbatore | Tamil Nadu |  600145 |  874875197 | akshaya@23gmail.com | Family          |
+| Family          | Akshaya   | Raju     | South Marret Street. | Coimbatore | Tamil Nadu |  600145 |  874875197 | akshaya@23gmail.com | Friends         |
++-----------------+-----------+----------+----------------------+------------+------------+---------+------------+---------------------+-----------------+
+3 rows in set (0.02 sec)
+
+----UC7--->Size of state and city
+mysql> select Count(*)As CountOfStateAndCity ,StateName,City
+    -> from Contact_Person
+    -> INNER JOIN  Address_Book on Address_Book.AddressBookID=AddressBook_ID
+    -> Group by StateName,City;
++---------------------+------------+------------+
+| CountOfStateAndCity | StateName  | City       |
++---------------------+------------+------------+
+|                   1 | Karnataka  | Bangalore  |
+|                   1 | Tamil Nadu | Chennai    |
+|                   1 | Tamil Nadu | Coimbatore |
+|                   1 | Kerala     | Cochin     |
++---------------------+------------+------------+
+4 rows in set (0.12 sec)
+
+-----UC8--->Retrieve the person data entries sorted alphabetically
+mysql> select AddressBookName,FirstName,LastName,Address,City,StateName,ZipCode,PhoneNum,EmailId,ContactTypeName
+    -> from Contact_Person
+    -> INNER JOIN  Address_Book on Address_Book.AddressBookID=AddressBook_ID
+    -> INNER JOIN Relation_Type on Relation_Type.Contact_Id=Contact_Person.ContactID
+    -> INNER JOIN Contact_Type on Relation_Type.ContactType_ID=Contact_Type.ContactTypeID
+    -> order by(FirstName);
++-----------------+-----------+----------+----------------------+------------+------------+---------+------------+---------------------+-----------------+
+| AddressBookName | FirstName | LastName | Address              | City       | StateName  | ZipCode | PhoneNum   | EmailId             | ContactTypeName |
++-----------------+-----------+----------+----------------------+------------+------------+---------+------------+---------------------+-----------------+
+| Family          | Akshaya   | Raju     | South Marret Street. | Coimbatore | Tamil Nadu |  600145 |  874875197 | akshaya@23gmail.com | Family          |
+| Family          | Akshaya   | Raju     | South Marret Street. | Coimbatore | Tamil Nadu |  600145 |  874875197 | akshaya@23gmail.com | Friends         |
+| Friend          | Atchaya   | Vishal   | Gandhi Bazaar        | Cochin     | Kerala     |  601454 | 7847595157 | atchu2000@gmail,com | Friends         |
+| Friend          | Dinesh    | Sankar   | Fort Road            | Bangalore  | Karnataka  |  600158 | 8939478157 | dinesh456@gmail.com | Profession      |
+| Family          | Raj       | Kumar    | Adam Street          | Chennai    | Tamil Nadu |  600015 | 9847581547 | raj23@gmail.com     | Family          |
++-----------------+-----------+----------+----------------------+------------+------------+---------+------------+---------------------+-----------------+
+5 rows in set (0.00 sec)
+
+-----UC9--->Get Number Of contact persons by type
+mysql> select Count(*) as NumberOfContacts,Contact_Type.ContactTypeName
+    -> from Contact_Person
+    -> INNER JOIN  Address_Book on Address_Book.AddressBookID=Contact_Person.AddressBook_ID
+    -> INNER JOIN Relation_Type on Relation_Type.Contact_ID=Contact_Person.ContactID
+    -> INNER JOIN Contact_Type on Relation_Type.ContactType_ID=Contact_Type.ContactTypeID
+    -> Group by ContactTypeName;
++------------------+-----------------+
+| NumberOfContacts | ContactTypeName |
++------------------+-----------------+
+|                1 | Profession      |
+|                2 | Friends         |
+|                2 | Family          |
++------------------+-----------------+
+3 rows in set (0.00 sec)
+
